@@ -17,7 +17,7 @@ You can **add**, **edit**, **delete**, and **save** notes - all stored locally i
 
 ## 🧠 Tech Stack
 
-- ⚛️ React (with Vite or CRA)
+- ⚛️ React (with Vite)
 - 🧱 CSS (or TailwindCSS optional)
 - 💡 Local Storage API
 
@@ -28,6 +28,6 @@ You can **add**, **edit**, **delete**, and **save** notes - all stored locally i
 Clone the repository and install dependencies:
 
 ```bash
-git clone https://github.com/<your-username>/react-notes-app.git
+git clone https://github.com/mebishwak090/React-Notes-App.git
 cd react-notes-app
 npm install
