@@ -28,8 +28,14 @@ export default function App() {
     setNotes((prev) => [newNote, ...prev]);
   };
 
-  // 🗑️ Delete note
+  // 🗑️ Delete note (with confirmation)
   const deleteNote = (id) => {
+    const noteToDelete = notes.find((note) => note.id === id);
+    const confirmed = window.confirm(
+      `Are you sure you want to delete "${noteToDelete?.title || "this note"}"?`
+    );
+    if (!confirmed) return;
+
     setNotes((prev) => prev.filter((note) => note.id !== id));
   };
 
