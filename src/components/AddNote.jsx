@@ -3,13 +3,16 @@ import { useState } from "react";
 export default function AddNote({ onAdd }) {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
+  const [tags, setTags] = useState("");
 
   const handleSubmit = (e) => {
     e.preventDefault();
     if (!title.trim() && !description.trim()) return; // prevent empty notes
-    onAdd(title, description);
+    const tagArray = tags.split(",").map(tag => tag.trim()).filter(Boolean);
+    onAdd(title, description, tagArray);
     setTitle("");
     setDescription("");
+    setTags("");
   };
 
   return (
@@ -27,6 +30,13 @@ export default function AddNote({ onAdd }) {
         value={description}
         onChange={(e) => setDescription(e.target.value)}
         rows={3}
+      />
+      <input
+        type="text"
+        className="border rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+        placeholder="Tags (comma-separated)"
+        value={tags}
+        onChange={(e) => setTags(e.target.value)}
       />
       <button
         type="submit"

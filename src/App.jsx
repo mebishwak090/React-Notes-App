@@ -23,8 +23,8 @@ export default function App() {
   }, [notes]);
 
   // ➕ Add note (now supports title & description)
-  const addNote = (title, description) => {
-    const newNote = { id: Date.now(), title, description };
+  const addNote = (title, description, tags = []) => {
+    const newNote = { id: Date.now(), title, description, tags };
     setNotes((prev) => [newNote, ...prev]);
   };
 
@@ -98,6 +98,13 @@ export default function App() {
                     rows={3}
                     placeholder="Edit description..."
                   />
+                  <input
+                    type="text"
+                    value={editTags.join(", ")}
+                    onChange={(e) => setEditTags(e.target.value.split(",").map(t => t.trim()))}
+                    className="border rounded px-2 py-1 focus:outline-none focus:ring focus:ring-blue-200"
+                    placeholder="Edit tags (comma-separated)"
+                  />
                   <div className="flex gap-2">
                     <button
                       onClick={() => saveEdit(note.id)}
@@ -121,6 +128,18 @@ export default function App() {
                       {note.title || "Untitled"}
                     </h3>
                     <p className="text-gray-600">{note.description}</p>
+                    {note.tags?.length > 0 && (
+                      <div className="flex flex-wrap gap-1 mt-1">
+                        {note.tags.map((tag, idx) => (
+                          <span
+                            key={idx}
+                            className="text-xs bg-gray-200 text-gray-800 px-2 py-0.5 rounded-full"
+                          >
+                            {tag}
+                          </span>
+                        ))}
+                      </div>
+                    )}
                   </div>
                   <div className="flex flex-col gap-1">
                     <button
