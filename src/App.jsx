@@ -17,6 +17,8 @@ export default function App() {
   const [editTitle, setEditTitle] = useState("");
   const [editDescription, setEditDescription] = useState("");
   const [editTags, setEditTags] = useState([]); 
+  // 🔍 Search filter
+  const [searchTerm, setSearchTerm] = useState("");
 
   // 2️⃣ Save notes whenever they change
   useEffect(() => {
@@ -25,6 +27,7 @@ export default function App() {
 
   // ➕ Add note (now supports title & description)
   const addNote = (title, description, tags = []) => {
+    const now = new Date().toISOString();
     const newNote = {
     id: Date.now(),
     title,
@@ -84,8 +87,24 @@ export default function App() {
 
         <div className="flex flex-col gap-3 mt-4">
           {notes.length === 0 && <p className="text-gray-500">No notes yet.</p>}
+          <input
+            type="text"
+            placeholder="Search notes..."
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            className="border rounded-md p-2 mb-4 w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
+          />
 
-          {notes.map((note) => (
+          {notes
+            .filter((note) => {
+              const term = searchTerm.toLowerCase();
+              return (
+                note.title?.toLowerCase().includes(term) ||
+                note.description?.toLowerCase().includes(term) ||
+                note.tags?.some((t) => t.toLowerCase().includes(term))
+              );
+            })
+            .map((note) => (
             <div
               key={note.id}
               className="bg-white p-3 rounded-md shadow-sm border"
