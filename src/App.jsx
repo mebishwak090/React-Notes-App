@@ -16,6 +16,7 @@ export default function App() {
   const [editingId, setEditingId] = useState(null);
   const [editTitle, setEditTitle] = useState("");
   const [editDescription, setEditDescription] = useState("");
+  const [editTags, setEditTags] = useState([]); 
 
   // 2️⃣ Save notes whenever they change
   useEffect(() => {
@@ -24,7 +25,14 @@ export default function App() {
 
   // ➕ Add note (now supports title & description)
   const addNote = (title, description, tags = []) => {
-    const newNote = { id: Date.now(), title, description, tags };
+    const newNote = {
+    id: Date.now(),
+    title,
+    description,
+    tags,
+    createdAt: now,
+    updatedAt: now,
+  };
     setNotes((prev) => [newNote, ...prev]);
   };
 
@@ -40,10 +48,11 @@ export default function App() {
   };
 
   // ✏️ Start editing a note
-  const startEditing = (id, currentTitle, currentDescription) => {
+  const startEditing = (id, currentTitle, currentDescription, currentTags = []) => {
     setEditingId(id);
     setEditTitle(currentTitle);
     setEditDescription(currentDescription);
+    setEditTags(currentTags);
   };
 
   // 🚫 Cancel editing
@@ -56,10 +65,11 @@ export default function App() {
   // 💾 Save edited note
   const saveEdit = (id) => {
     if (!editTitle.trim() && !editDescription.trim()) return; // Prevent empty
+    const now = new Date().toISOString();
     setNotes((prev) =>
       prev.map((note) =>
         note.id === id
-          ? { ...note, title: editTitle, description: editDescription }
+          ? { ...note, title: editTitle, description: editDescription, tags: editTags, updatedAt: now }
           : note
       )
     );
@@ -140,11 +150,17 @@ export default function App() {
                         ))}
                       </div>
                     )}
+                    <div className="text-xs text-gray-400 mt-1">
+                      <p>Created: {new Date(note.createdAt).toLocaleString()}</p>
+                      {note.updatedAt !== note.createdAt && (
+                        <p>Edited: {new Date(note.updatedAt).toLocaleString()}</p>
+                      )}
+                    </div>
                   </div>
                   <div className="flex flex-col gap-1">
                     <button
                       onClick={() =>
-                        startEditing(note.id, note.title, note.description)
+                        startEditing(note.id, note.title, note.description, note.tags)
                       }
                       className="text-blue-500 hover:text-blue-700"
                     >
