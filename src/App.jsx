@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import Header from "./components/Header";
 import AddNote from "./components/AddNote";
+import SearchBar from "./components/SearchBar";
 import { useLocalStorage } from "./hooks/useLocalStorage";
 
 
@@ -86,13 +87,8 @@ export default function App() {
 
         <div className="flex flex-col gap-3 mt-4">
           {notes.length === 0 && <p className="text-gray-500">No notes yet.</p>}
-          <input
-            type="text"
-            placeholder="Search notes..."
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-            className="border rounded-md p-2 mb-4 w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
-          />
+
+          <SearchBar value={searchTerm} onChange={setSearchTerm} />
 
           {notes
             .filter((note) => {
