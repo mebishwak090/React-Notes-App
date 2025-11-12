@@ -1,16 +1,15 @@
 import { useState, useEffect } from "react";
 import Header from "./components/Header";
 import AddNote from "./components/AddNote";
+import { useLocalStorage } from "./hooks/useLocalStorage";
+
 
 const STORAGE_KEY = "notes";
 
 export default function App() {
   // 1️⃣ Initialize state from localStorage
-  const [notes, setNotes] = useState(() => {
-    // This ensures initial state comes from localStorage only once
-    const saved = localStorage.getItem(STORAGE_KEY);
-    return saved ? JSON.parse(saved) : [];
-  });
+  
+  const [notes, setNotes] = useLocalStorage("notes", []);
 
   // ✏️ Editing state
   const [editingId, setEditingId] = useState(null);
