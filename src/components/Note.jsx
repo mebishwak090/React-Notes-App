@@ -1,3 +1,5 @@
+import TagList from "./TagList";
+
 export default function Note({ 
   note, 
   editingId, 
@@ -64,18 +66,7 @@ export default function Note({
               {note.title || "Untitled"}
             </h3>
             <p className="text-gray-600">{note.description}</p>
-            {note.tags?.length > 0 && (
-              <div className="flex flex-wrap gap-1 mt-1">
-                {note.tags.map((tag, idx) => (
-                  <span
-                    key={idx}
-                    className="text-xs bg-gray-200 text-gray-800 px-2 py-0.5 rounded-full"
-                  >
-                    {tag}
-                  </span>
-                ))}
-              </div>
-            )}
+            <TagList tags={note.tags} onClickTag={(tag) => setSearchTerm(tag)} />
             <div className="text-xs text-gray-400 mt-1">
               <p>Created: {new Date(note.createdAt).toLocaleString()}</p>
               {note.updatedAt !== note.createdAt && (
