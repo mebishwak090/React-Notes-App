@@ -1,8 +1,8 @@
 export default function Header() {
   return (
-    <header className="bg-gray-900 text-white shadow-md py-4 px-6">
+    <header className="bg-white shadow-md py-4 px-6 mb-4">
       <h1 className="text-2xl font-semibold tracking-wide">
-        React Notes App
+        Notes App
       </h1>
     </header>
   );
