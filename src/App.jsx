@@ -3,12 +3,10 @@ import Header from "./components/Header";
 import AddNote from "./components/AddNote";
 import SearchBar from "./components/SearchBar";
 import SortFilter from "./components/SortFilter";
-import Note from "./components/Note";
 import NoteList from "./components/NoteList";
 import { useLocalStorage } from "./hooks/useLocalStorage";
-
-
-const STORAGE_KEY = "notes";
+import { loadNotes, saveNotes } from "./utils/storage";
+import { STORAGE_KEY } from "./constants";
 
 export default function App() {
   // 1️⃣ Initialize state from localStorage
@@ -25,6 +23,16 @@ export default function App() {
   const [debouncedSearch, setDebouncedSearch] = useState(searchTerm);
   //Sort
   const [sortBy, setSortBy] = useState("newest");
+
+  // 🔄 Optional: Export or manually save notes using storage.js
+  const handleExport = () => {
+    const allNotes = loadNotes("notes");
+    console.log("Exporting notes", allNotes);
+  };
+
+  const manualSave = () => {
+    saveNotes("notes", notes);
+  };
 
   useEffect(() => {
   const handler = setTimeout(() => {
@@ -121,6 +129,7 @@ export default function App() {
     <div className="min-h-screen bg-gray-100">
       <Header />
       <main className="p-6 max-w-xl mx-auto">
+
         <AddNote onAdd={addNote} />
         <SearchBar value={searchTerm} onChange={setSearchTerm} />
         <SortFilter 
