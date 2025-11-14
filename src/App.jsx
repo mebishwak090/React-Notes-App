@@ -131,7 +131,11 @@ export default function App() {
       <main className="p-6 max-w-xl mx-auto">
 
         <AddNote onAdd={addNote} />
-        <SearchBar value={searchTerm} onChange={setSearchTerm} />
+        <SearchBar 
+          value={searchTerm} 
+          onChange={setSearchTerm} 
+          onClear={clearFilters} 
+        />
         <SortFilter 
           sortBy={sortBy} 
           setSortBy={setSortBy} 

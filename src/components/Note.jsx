@@ -17,7 +17,7 @@ export default function Note({
   cancelEditing
 }) {
   return (
-    <div className="bg-white p-3 rounded-md shadow-sm border">
+    <div className="bg-white p-4 rounded-md shadow-sm border hover:shadow-md transition-shadow duration-200">
       {editingId === note.id ? (
         // ✏️ Editing mode
         <div className="flex flex-col gap-2">
@@ -69,8 +69,8 @@ export default function Note({
             </h3>
             <p className="text-gray-600">{note.description}</p>
             
-            <TagList tags={note.tags} onClickTag={(tag) => setSearchTerm(tag)} selectedTag={selectedTag} />
-              
+            <TagList tags={note.tags} onClickTag={(tag) => setSearchTerm(tag)} selectedTag={selectedTag} className="cursor-pointer" />
+
             <div className="text-xs text-gray-400 mt-1">
               <p>Created: {new Date(note.createdAt).toLocaleString()}</p>
               {note.updatedAt !== note.createdAt && (

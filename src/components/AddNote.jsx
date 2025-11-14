@@ -25,7 +25,7 @@ export default function AddNote({ onAdd }) {
         onChange={(e) => setTitle(e.target.value)}
       />
       <textarea
-        className="border rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none"
+        className="border rounded-md p-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none"
         placeholder="Write your note description..."
         value={description}
         onChange={(e) => setDescription(e.target.value)}
@@ -40,7 +40,7 @@ export default function AddNote({ onAdd }) {
       />
       <button
         type="submit"
-        className="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition"
+        className="mt-2 px-3 py-1 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition"
       >
         Add Note
       </button>
