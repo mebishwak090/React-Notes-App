@@ -13,10 +13,11 @@ export default function NoteList({
   editTags,
   setEditTags,
   cancelEditing,
-  searchTerm = "",
+  debouncedSearch = "",
+  setSearchTerm,
 }) {
   const filteredNotes = notes.filter((note) => {
-    const term = searchTerm.toLowerCase();
+    const term = debouncedSearch.toLowerCase();
     return (
       note.title?.toLowerCase().includes(term) ||
       note.description?.toLowerCase().includes(term) ||
@@ -34,6 +35,8 @@ export default function NoteList({
         <Note
           key={note.id}
           note={note}
+          selectedTag={debouncedSearch} // pass selected tag to highlight 
+          setSearchTerm={setSearchTerm}
           editingId={editingId}
           startEditing={startEditing}
           deleteNote={deleteNote}

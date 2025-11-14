@@ -1,7 +1,9 @@
 import TagList from "./TagList";
 
 export default function Note({ 
-  note, 
+  note,
+  setSearchTerm,
+  selectedTag,
   editingId, 
   startEditing, 
   deleteNote, 
@@ -66,7 +68,9 @@ export default function Note({
               {note.title || "Untitled"}
             </h3>
             <p className="text-gray-600">{note.description}</p>
-            <TagList tags={note.tags} onClickTag={(tag) => setSearchTerm(tag)} />
+            
+            <TagList tags={note.tags} onClickTag={(tag) => setSearchTerm(tag)} selectedTag={selectedTag} />
+              
             <div className="text-xs text-gray-400 mt-1">
               <p>Created: {new Date(note.createdAt).toLocaleString()}</p>
               {note.updatedAt !== note.createdAt && (

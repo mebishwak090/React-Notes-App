@@ -21,6 +21,16 @@ export default function App() {
   const [editTags, setEditTags] = useState([]); 
   // 🔍 Search filter
   const [searchTerm, setSearchTerm] = useState("");
+  const [debouncedSearch, setDebouncedSearch] = useState(searchTerm);
+
+  useEffect(() => {
+  const handler = setTimeout(() => {
+    setDebouncedSearch(searchTerm);
+  }, 300); // 300ms delay for debouncing
+
+  return () => clearTimeout(handler); // cleanup previous timeout
+}, [searchTerm]);
+
 
   // 2️⃣ Save notes whenever they change
   useEffect(() => {
@@ -86,7 +96,7 @@ export default function App() {
       <Header />
       <main className="p-6 max-w-xl mx-auto">
         <AddNote onAdd={addNote} />
-
+        <SearchBar value={searchTerm} onChange={setSearchTerm} />
         <NoteList
           notes={notes}
           editingId={editingId}
@@ -100,7 +110,8 @@ export default function App() {
           editTags={editTags}
           setEditTags={setEditTags}
           cancelEditing={cancelEditing}
-          searchTerm={searchTerm}
+          debouncedSearch={debouncedSearch}
+          setSearchTerm={setSearchTerm}
         />
       </main>
     </div>
