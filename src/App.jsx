@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import Header from "./components/Header";
 import AddNote from "./components/AddNote";
 import SearchBar from "./components/SearchBar";
+import SortFilter from "./components/SortFilter";
 import Note from "./components/Note";
 import NoteList from "./components/NoteList";
 import { useLocalStorage } from "./hooks/useLocalStorage";
@@ -22,6 +23,8 @@ export default function App() {
   // 🔍 Search filter
   const [searchTerm, setSearchTerm] = useState("");
   const [debouncedSearch, setDebouncedSearch] = useState(searchTerm);
+  //Sort
+  const [sortBy, setSortBy] = useState("newest");
 
   useEffect(() => {
   const handler = setTimeout(() => {
@@ -36,6 +39,12 @@ export default function App() {
   useEffect(() => {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(notes));
   }, [notes]);
+
+  //Clear filters
+  const clearFilters = () => {
+    setSearchTerm("");
+    setSortBy("newest");
+  };
 
   // ➕ Add note (now supports title & description)
   const addNote = (title, description, tags = []) => {
@@ -91,14 +100,36 @@ export default function App() {
     cancelEditing();
   };
 
+  // Sorting notes
+  const sortedNotes = [...notes].sort((a, b) => {
+    switch (sortBy) {
+      case "newest":
+        return new Date(b.createdAt) - new Date(a.createdAt);
+      case "oldest":
+        return new Date(a.createdAt) - new Date(b.createdAt);
+      case "az":
+        return a.title.localeCompare(b.title);
+      case "za":
+        return b.title.localeCompare(a.title);
+      default:
+        return 0;
+    }
+  });
+
+
   return (
     <div className="min-h-screen bg-gray-100">
       <Header />
       <main className="p-6 max-w-xl mx-auto">
         <AddNote onAdd={addNote} />
         <SearchBar value={searchTerm} onChange={setSearchTerm} />
+        <SortFilter 
+          sortBy={sortBy} 
+          setSortBy={setSortBy} 
+          clearFilters={clearFilters} 
+        />
         <NoteList
-          notes={notes}
+          notes={sortedNotes}
           editingId={editingId}
           startEditing={startEditing}
           deleteNote={deleteNote}
